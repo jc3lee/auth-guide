@@ -39,7 +39,8 @@
     </header>
     <!-- front image here -->
     <div class="zoomImageContainer">
-      <img class="zoomOK" src="./public/amazon_header_image.png" alt="login with amazon">
+      <img class="zoomOK" onclick="toggleZoomImage()" data-zoomable src="./public/amazon_header_image.png"
+        alt="login with amazon">
     </div>
 
     <h3>Step 1: Setting up our app on Amazon</h3>
@@ -54,7 +55,7 @@
     </div>
 
     <div class="zoomImageContainer">
-      <img class="zoomOK" src="./public/developer_amazon_security_profile.png" alt="">
+      <img class="zoomOK" data-zoomable src="./public/developer_amazon_security_profile.png" alt="">
     </div>
     <span class="imageCaption"><a
         href="https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html">loginwithamazon/console/site/lwa/overview</a></span>
@@ -69,7 +70,7 @@
     </div>
 
     <div class="zoomImageContainer">
-      <img class="zoomOK" src="./public/amazon_app_setting_page.png" alt="">
+      <img class="zoomOK" data-zoomable src="./public/amazon_app_setting_page.png" alt="">
     </div>
     <span class="imageCaption"><a
         href="https://developer.amazon.com/settings/console/securityprofile/web-settings/view.html">settings/console/securityprofile/web-settings/view</a></span>
@@ -91,8 +92,8 @@
           class="codeText">response_type</span>, <span class="codeText">redirect_uri</span> and an optional <span
           class="codeText">state</span>. </p>
     </div>
-    <div class="imageContainer">
-      <img id="amazonCodeRequestParamsTable" src="./public/amazon_auth_code_request_params.png" alt="">
+    <div class="zoomImageContainer imageScrollX">
+      <img id="amazonCodeRequestParamsTable" data-zoomable src="./public/amazon_auth_code_request_params.png" alt="">
     </div>
     <span class="imageCaption"><a
         href="https://images-na.ssl-images-amazon.com/images/G/01/lwa/dev/docs/website-developer-guide._TTH_.pdf">Amazon
@@ -153,7 +154,7 @@
 
     <h3>Step 5: Getting the access token</h3>
 
-    <div class="imageContainer"><img id="amazonAccessRequestParamsTable"
+    <div class="zoomImageContainer imageScrollX"><img id="amazonAccessRequestParamsTable" data-zoomable
         src="./public/amazon_access_token_request_params.png" alt=""></div>
     <span class="imageCaption"><a
         href="https://images-na.ssl-images-amazon.com/images/G/01/lwa/dev/docs/website-developer-guide._TTH_.pdf">Amazon
@@ -222,11 +223,19 @@
       </div>
     </footer>
   </main>
+  <script src="medium-zoom.js"></script>
   <script>
     function redirectToTwitter() {
       console.log("here")
       window.location.href = "https://twitter.com/ljc_dev"
     }
+    //added data-zoomable to my images
+    const zoom = mediumZoom('[data-zoomable]')
+    function toggleZoomImage() {
+      zoom.toggle()
+    }
+
+
   </script>
 </body>
 
