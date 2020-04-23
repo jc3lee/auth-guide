@@ -30,31 +30,40 @@
 body {
   width: 100%;
   font-family: "Lora";
-  font-size: var(--base-font-size);
 }
 
 /* Some elements inside my github gist code were minuscule. Found answer at
 https://codersblock.com/blog/customizing-github-gists/
 */
 
-body .gist .highlight, body .gist .highlight td, body .gist .highlight tr, body .gist .blob-num, body .gist .gist-meta {
+body .gist .highlight, body .gist .highlight td, body .gist .highlight tr, body .gist .blob-num, body .gist .gist-meta, body .gist .blob-code-inner {
   font-size: var(--extra-small);
+  line-height: 1rem;
 }
 
 main {
-  font-size: inherit;
   width: 100%;
   padding: 0.5rem;
   max-width: 100vw;
   overflow-x: hidden;
   word-wrap: break-word;
-  line-height: var(--base-line-height);
   letter-spacing: -0.04em;
   color: black;
 }
 
+main .textContainer {
+  font-size: var(--base-font-size);
+  line-height: var(--base-line-height);
+}
+
 a, p, span, li, ul, b {
   font-size: inherit;
+  line-height: inherit;
+}
+
+a {
+  color: inherit;
+  outline: none;
 }
 
 header .outerV {
@@ -69,14 +78,6 @@ header .outerV .innerH {
   display: flex;
   flex-flow: column nowrap;
   align-items: flex-start;
-}
-
-header .outerV .innerH .col1 {
-  margin-bottom: -0.2rem;
-}
-
-header .outerV .innerH .col2 {
-  margin-top: -0.2rem;
 }
 
 header .outerV .innerH .col1 .authorName {
@@ -125,9 +126,10 @@ header .avatarImage {
 }
 
 main .zoomImageContainer {
-  margin: 0.75rem 0 0;
-  box-shadow: 0px 0px 5px 1px rgba(202, 200, 200, 0.75);
+  margin: 0.75rem auto 0;
+  box-shadow: 0px 0px 5px 2px rgba(199, 198, 198, 0.801);
   width: 95%;
+  font-size: 0;
 }
 
 main .zoomImageContainer .zoomOK {
@@ -136,12 +138,13 @@ main .zoomImageContainer .zoomOK {
 }
 
 main .imageContainer {
-  margin: 0.75rem 0 0;
+  margin: 0.75rem auto 0;
   overflow-x: auto;
+  font-size: 0;
 }
 
 main .codeContainer {
-  margin: 0.75rem 0;
+  margin: 0.75rem auto;
 }
 
 main .imageCaption {
@@ -150,7 +153,8 @@ main .imageCaption {
   font-size: var(--extra-small);
   color: rgb(140, 145, 150);
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+  padding: 0;
 }
 
 #amazonLoginBtn {
@@ -186,16 +190,6 @@ h3 {
   line-height: var(--h3-lh);
 }
 
-a {
-  font-size: inherit;
-  color: inherit;
-}
-
-a:hover, a:focus, a:active, a:visited {
-  color: inherit;
-  outline: none;
-}
-
 /* dunno why can't make ul list-style-type work */
 
 ul {
@@ -215,37 +209,38 @@ hr {
 footer .footerDesc {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-areas: "avatar author . ." "details details details details" "follow . . . ";
+  grid-template-columns: auto minmax(0, 1fr) auto;
   margin-bottom: 3rem;
 }
 
 .footerAvatar {
-  grid-area: avatar;
+  grid-column: 1/2;
+  grid-row: 1/2;
 }
 
 .footerAuthor {
-  grid-area: author;
+  grid-column: 2/4;
+  grid-row: 1/2;
+  padding: 0 0.7rem;
 }
 
 .footerDetails {
-  grid-area: details;
+  grid-column: 1/4;
+  grid-row: 2/3;
+  padding: 0.25rem 0 0.6rem;
 }
 
 .footerFollow {
-  grid-area: follow;
-  display: block;
-  position: relative;
+  text-align: left;
+  grid-column: 1/2;
+  grid-row: 3/4;
 }
 
 .footerFollow .followBtn {
-  position: absolute;
   background: white;
   padding: 0.3rem 0.6rem;
   letter-spacing: 0.05rem;
   font-size: 14px;
-  top: 0;
-  left: 0;
   border: 1px solid rgb(34, 97, 214);
   color: rgb(34, 97, 214);
   border-radius: 5px;
@@ -264,8 +259,15 @@ footer .footerAuthor .writtenBy {
   font-family: Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   color: rgb(135, 135, 136);
-  line-height: 1.2rem;
+  margin-top: 0.5rem;
   letter-spacing: 0.05rem;
+}
+
+footer .avatarImage {
+  display: block;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
 }
 
 footer .footerAuthor .authorName {
@@ -280,13 +282,6 @@ footer .footerDetails p {
   font-size: 16px;
   letter-spacing: -0.03rem;
   color: rgb(135, 135, 136);
-}
-
-footer .avatarImage {
-  display: block;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
 }
 
 @media(min-width: 700px) {
@@ -308,25 +303,44 @@ footer .avatarImage {
     margin-bottom: 0.75rem;
   }
   main .imageContainer {
-    margin: 1rem 0.2rem 0;
-    overflow-x: auto;
+    margin: 1.5rem auto 1rem;
   }
   main .codeContainer {
-    margin: 1rem 0.2rem;
+    margin: 1.5rem auto 1rem;
   }
   main .zoomImageContainer {
-    margin: 1rem 0.2rem 0;
+    margin: 1.5rem auto 1rem;
+  }
+  main .imageCaption {
+    padding: 0 0 1rem;
   }
   #amazonLoginBtn {
     width: 200px;
     height: 50px;
   }
   footer .footerDesc {
-    grid-template-columns: repeat(7, 1fr);
-    grid-template-areas: "avatar author author author author author follow" "avatar details details details details details .";
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    margin-bottom: 3rem;
   }
-  .footerFollow .followBtn {
-    right: 0;
+  .footerAvatar {
+    grid-column: 1/2;
+    grid-row: 1/3;
+  }
+  .footerAuthor {
+    grid-column: 2/3;
+    grid-row: 1/2;
+  }
+  .footerDetails {
+    grid-column: 2/3;
+    grid-row: 2/3;
+    padding: 0 0.7rem;
+  }
+  .footerFollow {
+    text-align: right;
+    grid-column: 3/4;
+    grid-row: 1/3;
   }
 }
 
@@ -344,13 +358,15 @@ footer .avatarImage {
     margin-bottom: 1rem;
   }
   main .imageContainer {
-    margin: 3rem 1rem 0;
-    overflow-x: auto;
+    margin: 3rem auto 1.2rem;
   }
   main .codeContainer {
-    margin: 3rem 1rem;
+    margin: 3rem auto 1.2rem;
   }
   main .zoomImageContainer {
-    margin: 3rem 1rem 0;
+    margin: 3rem auto 1.2rem;
+  }
+  main .imageCaption {
+    padding: 0 0 1.5rem;
   }
 }

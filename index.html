@@ -43,70 +43,83 @@
     </div>
 
     <h3>Step 1: Setting up our app on Amazon</h3>
-    <p>To add login with Amazon to our website, we first need an amazon developer account.
-      <p>If you don't have one, create
-        one at <a href="https://developer.amazon.com">https://developer.amazon.com</a>. <br />
-        You won't need to enter a payment method but you'll still need to provide your phone number.</p>
-      <p>After signing up/in, click on developer console, then on login with amazon (or click <a
-          href="https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html">here</a>). </p>
 
-      <div class="zoomImageContainer">
-        <img class="zoomOK" src="./public/developer_amazon_security_profile.png" alt="">
-      </div>
-      <span class="imageCaption"><a
-          href="https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html">loginwithamazon/console/site/lwa/overview</a></span>
+    <div class="textContainer">
+      <p>To add login with Amazon to our website, we first need an amazon developer account.
+        <p>If you don't have one, create
+          one at <a href="https://developer.amazon.com">https://developer.amazon.com</a>. <br />
+          You won't need to enter a payment method but you'll still need to provide your phone number.</p>
+        <p>After signing up/in, click on developer console, then on login with amazon (or click <a
+            href="https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html">here</a>). </p>
+    </div>
 
+    <div class="zoomImageContainer">
+      <img class="zoomOK" src="./public/developer_amazon_security_profile.png" alt="">
+    </div>
+    <span class="imageCaption"><a
+        href="https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html">loginwithamazon/console/site/lwa/overview</a></span>
 
+    <div class="textContainer">
       <p>Security profiles is the way Amazon refers to Apps. So to create a new app, click on the create
         a new security profile button.</p>
       <p>Don't worry about the app details you enter, you can always edit them later on.</p>
       <p>Now the previous login with amazon page has our newly created security profile listed. To edit the app settings
         we need to go to the settings
         wheel button on the far right and choose web settings. </p>
+    </div>
 
-      <div class="zoomImageContainer">
-        <img class="zoomOK" src="./public/amazon_app_setting_page.png" alt="">
-      </div>
-      <span class="imageCaption"><a
-          href="https://developer.amazon.com/settings/console/securityprofile/web-settings/view.html">settings/console/securityprofile/web-settings/view</a></span>
+    <div class="zoomImageContainer">
+      <img class="zoomOK" src="./public/amazon_app_setting_page.png" alt="">
+    </div>
+    <span class="imageCaption"><a
+        href="https://developer.amazon.com/settings/console/securityprofile/web-settings/view.html">settings/console/securityprofile/web-settings/view</a></span>
 
+    <div class="textContainer">
       <p>Save your <b>Client ID</b> and <b>Client Secret</b> for later use.</p>
       <p>The <b>Allowed Origins</b> field should be left empty (It's for those who use the Amazon login SDK).</p>
       <p>Add a callback url in the <b>Allowed Return URLs</b> field. This is the page Amazon will redirect to after the
         user
         authenticated.</p>
+    </div>
 
-      <h3>Step 2: Making the Authentication request</h3>
+    <h3>Step 2: Making the Authentication request</h3>
+    <div class="textContainer">
       <p>Now to the fun part!</p>
       <p>The first thing to do is to ask Amazon for an authentication code. We need to make a client-side request to
         <span class="codeText">https://www.amazon.com/ap/oa</span> with
         the parameters <span class="codeText">client_id</span>, <span class="codeText">scope</span>, <span
           class="codeText">response_type</span>, <span class="codeText">redirect_uri</span> and an optional <span
           class="codeText">state</span>. </p>
-      <div class="imageContainer">
-        <img id="amazonCodeRequestParamsTable" src="./public/amazon_auth_code_request_params.png" alt="">
-      </div>
-      <span class="imageCaption"><a
-          href="https://images-na.ssl-images-amazon.com/images/G/01/lwa/dev/docs/website-developer-guide._TTH_.pdf">Amazon
-          authentication code</a> request parameters</span>
+    </div>
+    <div class="imageContainer">
+      <img id="amazonCodeRequestParamsTable" src="./public/amazon_auth_code_request_params.png" alt="">
+    </div>
+    <span class="imageCaption"><a
+        href="https://images-na.ssl-images-amazon.com/images/G/01/lwa/dev/docs/website-developer-guide._TTH_.pdf">Amazon
+        authentication code</a> request parameters</span>
+    <div class="textContainer">
       <p>The easiest way to attach those parameters to the request url is with the wildly used <a
           href="https://www.npmjs.com/package/query-string">query-string</a>
         module.</p>
       <p>After stringifying the parameters, we add them to the request url.</p>
+    </div>
 
-      <div class="codeContainer">
-        <script src="https://gist.github.com/ljc-dev/f2cb7da09130451caa0f77956044db10.js"></script>
-      </div>
+    <div class="codeContainer">
+      <script src="https://gist.github.com/ljc-dev/f2cb7da09130451caa0f77956044db10.js"></script>
+    </div>
 
+    <div class="textContainer">
       <p>Then we set the <span class="codeText">amazonLoginUrl</span> as the href value of our Amazon sign in button.
       </p>
       <p>When the user clicks on this button, they will be redirected to Amazon authentication page.</p>
-      <div class="imageContainer">
-        <img id="amazonLoginBtn" src="./public/amazon_login_btn.png" alt="">
-      </div>
+    </div>
+    <div class="imageContainer">
+      <img id="amazonLoginBtn" src="./public/amazon_login_btn.png" alt="">
+    </div>
 
-      <h3>Step 3: Getting the response code</h3>
+    <h3>Step 3: Getting the response code</h3>
 
+    <div class="textContainer">
       <p>After the user authenticates, Amazon will redirect them to the callback url we set in Step 2.</p>
       <p>⚠️ Warning: if the <span class="codeText">redirect_uri</span> is different from the callback url we set in step
         1,
@@ -120,46 +133,54 @@
       </p>
       <p>Using query-string we can get the <span class="codeText">code</span> or <span class="codeText">error</span> as
         follow.</p>
+    </div>
 
-      <div class="codeContainer">
-        <script src="https://gist.github.com/ljc-dev/deaa26dab8dade4d208b6f0cb4ef3b71.js"></script>
-      </div>
+    <div class="codeContainer">
+      <script src="https://gist.github.com/ljc-dev/deaa26dab8dade4d208b6f0cb4ef3b71.js"></script>
+    </div>
 
-      <h3>Step 4: Sending the code to our server</h3>
+    <h3>Step 4: Sending the code to our server</h3>
 
+    <div class="textContainer">
       <p>This step can be skipped if we are already server-side, for example if we are using express</p>
       <p>Otherwise, we can send the code in a fetch request to our server.</p>
+      </p>
+    </div>
 
-      <div class="codeContainer">
-        <script src="https://gist.github.com/ljc-dev/9746e1f6b4e317daf323bf8fbd85ec87.js"></script>
-      </div>
+    <div class="codeContainer">
+      <script src="https://gist.github.com/ljc-dev/9746e1f6b4e317daf323bf8fbd85ec87.js"></script>
+    </div>
 
-      <h3>Step 5: Getting the access token</h3>
+    <h3>Step 5: Getting the access token</h3>
 
-      <div class="imageContainer">
-        <img id="amazonAccessRequestParamsTable" src="./public/amazon_access_token_request_params.png" alt="">
-      </div>
-      <span class="imageCaption"><a
-          href="https://images-na.ssl-images-amazon.com/images/G/01/lwa/dev/docs/website-developer-guide._TTH_.pdf">Amazon
-          access token</a> request parameters</span>
+    <div class="imageContainer"><img id="amazonAccessRequestParamsTable"
+        src="./public/amazon_access_token_request_params.png" alt=""></div>
+    <span class="imageCaption"><a
+        href="https://images-na.ssl-images-amazon.com/images/G/01/lwa/dev/docs/website-developer-guide._TTH_.pdf">Amazon
+        access token</a> request parameters</span>
+    <div class="textContainer">
       <p>We make a POST request to <span class="codeText">https://api.amazon.com/auth/o2/token</span> with the <span
           class="codeText">code</span> we
         just
         received along with the <span class="codeText">grant_type</span>
         which should be set to "authorization_code", the <span class="codeText">client_id</span>, the <span
           class="codeText">client_secret</span>, and the <span class="codeText">redirect_uri</span></p>
+    </div>
 
-      <div class="codeContainer">
-        <script src="https://gist.github.com/ljc-dev/1fe659d8c8454ac194b7155e34e855ea.js"></script>
-      </div>
+    <div class="codeContainer">
+      <script src="https://gist.github.com/ljc-dev/1fe659d8c8454ac194b7155e34e855ea.js"></script>
+    </div>
 
+    <div class="textContainer">
       <p>The <span class="codeText">getAmazonAccessTokenFromCode</span> function is only returning the <span
           class="codeText">access_token</span> but the response data also contains <span
           class="codeText">token_type</span>,
         <span class="codeText">expires_in</span> and <span class="codeText">refresh_token</span></p>
+    </div>
 
-      <h3>Step 6: Getting the user data</h3>
+    <h3>Step 6: Getting the user data</h3>
 
+    <div class="textContainer">
       <p>Depending on the scope we requested, Amazon will give different user data.</p>
       <ul>
         <li><b>profile</b>: email, name and user_id</li>
@@ -170,32 +191,36 @@
           class="codeText">https://api.amazon.com/user/profile</span> with the <span
           class="codeText">access_token</span>
         as parameter</p>
+    </div>
 
-      <div class="codeContainer">
-        <script src="https://gist.github.com/ljc-dev/5190f6756bb46069f7e11db8701ab2b2.js"></script>
-      </div>
-      <h3>That's it!</h3>
+    <div class="codeContainer">
+      <script src="https://gist.github.com/ljc-dev/5190f6756bb46069f7e11db8701ab2b2.js"></script>
+    </div>
+    <h3>That's it!</h3>
+
+    <div class="textContainer">
       <p>I hope you enjoy reading through my first ever article. If you have any questions you can reach me <a
           href="https://twitter.com/ljc_dev">here</a>.</p>
-      <hr />
-      <footer>
-        <div class="footerDesc">
-          <div class="footerAvatar">
-            <a href="https://twitter.com/ljc_dev"><img class="avatarImage" src="./public/g1809.png"
-                alt="author's avatar"></a>
-          </div>
-          <div class="footerAuthor">
-            <p class="writtenBy">written by</p>
-            <a href="https://twitter.com/ljc_dev" class="authorName">LJC</a>
-          </div>
-          <div class="footerDetails">
-            <p>Developer in the making 💻, thinker 💡, lone wolf 🐺, positive 😄.</p>
-          </div>
-          <div class="footerFollow">
-            <button onclick="redirectToTwitter()" class="followBtn">Follow</button>
-          </div>
+    </div>
+    <hr />
+    <footer>
+      <div class="footerDesc">
+        <div class="footerAvatar">
+          <a href="https://twitter.com/ljc_dev"><img class="avatarImage" src="./public/g1809.png"
+              alt="author's avatar"></a>
         </div>
-      </footer>
+        <div class="footerAuthor">
+          <p class="writtenBy">written by</p>
+          <a href="https://twitter.com/ljc_dev" class="authorName">LJC</a>
+        </div>
+        <div class="footerDetails">
+          <p>Developer in the making 💻, thinker 💡, lone wolf 🐺, positive 😄.</p>
+        </div>
+        <div class="footerFollow">
+          <button onclick="redirectToTwitter()" class="followBtn">Follow</button>
+        </div>
+      </div>
+    </footer>
   </main>
   <script>
     function redirectToTwitter() {
